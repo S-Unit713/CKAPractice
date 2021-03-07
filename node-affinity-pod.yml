@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+spec:
+  containers:
+  - name: data-processor
+    image: data-processor
+  
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:       #If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node.
+         nodeSelectorTerms: 
+          - matchExpressions:         #A list of node selector requirements by node's labels.
+             -  key: size
+                operator: In          # Operator are :-  In , NotIn, Exists, DoesNotExist, Gt and Lt
+                values: 
+                 - Large
+                 - Medium
