@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod                            # like kubeadmin tool we deploy scheduler as pod. 
+metadata:
+  name: my-custom-scheduler
+  namespace: kube-system
+spec: 
+  containers: 
+  - command: 
+    - kube-scheduler
+    - --address=127.0.0.1
+    - --kubeconfig=/etc/kubernetes/scheduler.conf
+    - --leader-elect=true                 #choose true if multiple copies of the scheduler are running on different master nodes- Only one can be active.
+    - --scheduler-name=my-custom-scheduler
+    - --port=9001                               # Use different port for newwer scheduler
+    - --lock-object-name=my-custom-scheduler    # choose which amongst the scheduler should be the leader (In case of multiple masters)
+    image: k8s.gcr.io/kube-scheduler-amd64:v1.11.3
+    name: kube-scheduler
