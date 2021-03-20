@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: simple-webapp-color
   labels: 
-    name:   name: simple-webapp-color
+    name: simple-webapp-color
 spec:
   containers:
    - name: simple-webapp-color
