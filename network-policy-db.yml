@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-policy
+spec: 
+   podSelector:
+     matchLabels: 
+       role: db                                         #Apply this policy on Pod with Label "role: db"
+   policyTypes: 
+    - Ingress
+   ingress: 
+    - from: 
+      - podSelector:
+          matchLabels:
+             name: api-pod                                 #From which pod you want the incoming traffic to be allowed in (Ingress) to the Pod with "role: db"
+      - namespaceSelector: 
+          matchLabels: 
+            name: prod-ns                                  # From what namespace traffic is allowed to reach db
+      - ipBlock: 
+          cidr: 192.168.5.10/32                            # Range of IP address (Outside the k8 cluster) from which traffic is allowed to hit the DB pod
+      ports:
+      - protocol: TCP
+        port: 3306
+    - from:                                                # Add one more - from for new pod/namespace selector
+      - podSelector:
+          matchLabels:
+             name: internal-pod
+      ports: 
+      - protocol: TCP
+        port: 8080
+    - ports:                                               # if kubedns service becomes inaccessible use this portion after -ports
+      - protocol: UDP
+        port: 53
+      - protocol: TCP
+        port: 53                           

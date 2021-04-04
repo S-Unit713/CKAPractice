@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels: 
+    name: web-pod
+spec:
+  securityContext:                        #PodLevel SecurityContext
+    runAsUser: 1000
+  containers:
+   - name: ubuntu
+     image: ubuntu
+     command: ["sleep", "3600"]
+#    securityContext:                     #ContainerLevel SecurityContext
+#      runAsUser: 1000
+#      capabilities:                      #Capabilities only supported at contailer level
+#        add: ["MAC_ADMIN"] 
