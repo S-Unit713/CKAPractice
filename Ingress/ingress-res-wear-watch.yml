@@ -1,0 +1,22 @@
+# RULE 1 : traffic to www.my-online-store.com
+# RULE 2 : traffic to www.wear.my-online-store.com
+# RULE 3 : traffic to www.watch.my-online-store.com
+# RULE 4 : Everything Else
+# Within each of these rules has different path to route traffic to 
+# RULE 1: for traffic to www.my-online-store.com & 2 paths /wear & /watch
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: ingress-wear-watch
+spec: 
+  rules: 
+  - https: 
+      paths: 
+       - path: /wear
+          backend:
+             serviceName: wear-service
+             servicePort: 80
+       - path: /watch
+          backend:
+             serviceName: watch-service
+             servicePort: 80   # to view ingress run kubectl get ingress
